@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ha">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>library</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="libry.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <main class="main-content">
+
+            <section class="history">
+                <div class="heading-bar">
+                    <h2><img src="logo.jpg" alt="logo" id="logo"></h2>
+                    <button class="menu-toggle" id="menuToggleBtn">
+                        ☰
+
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+    <div class="sidebar-cikin-main" id="mySidebar">
+
+        <div class="sidebar-content">
+            <input type="text" placeholder="Search..." class="search-box">
+
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="#">Article</a></li>
+                <li><a href="#">Video clips</a></li>
+                <li> <a href="#">Book library</a></li>
+                <li> <a href="calendar.html">Islamic Calender</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+<body> 
+     <!-- PRELOADER -->
+  <div id="preloader">
+      <div class="loader-content">
+          <img src="logo.jpg" alt="Loading Logo" class="loader-logo">
+          <div class="dots">
+              <span></span>
+              <span></span>
+              <span></span>
+          </div>
+      </div>
+  </div>
+
+  <div id="content" style="display:none;">
+    
+     <header>Shahid Mahmud Library</header>  <div class="search-bar">
+    <input type="text" placeholder="Search by Title, Author or Keyword..." id="searchInput" />
+  </div>  <div class="categories">
+    <button onclick="filterCategory('Doctrine')">Doctrine</button>
+    <button onclick="filterCategory('History')">History</button>
+    <button onclick="filterCategory('Knowledge')">Knowledge</button>
+  </div>  <div class="book-container" id="bookContainer">
+    <div class="book-card" data-category="Doctrine" data-title="Mahdawiyya" data-author="Sidi Ahmad Ahlul kisa'i">
+      <img src="mahdawiyya.jpg" alt="Book Cover" loading="lazy"/>
+      <h3>Mahdawiyya</h3>
+      <p>Author: Sidi Ahmad Ahlul kisa'i</p>
+      <p>Category: Doctrine</p>
+      <button onclick="readPDF('Mahdawiyya.pdf')">Read</button>
+      <button onclick="downloadPDF('Mahdawiyya.pdf')">Download</button>
+    </div>
+    
+    <div class="book-card" data-category="Knowledge" data-title="falsafar sallah" data-author="sajjad sulaimani">
+  <img src="falsafar namaz.jpg" alt="Book Cover" loading="lazy" />
+  <h3>falsafar sallah</h3>
+  <p>Author: Sajjad Sulaimani</p>
+  <p>Category: Knowledge</p>
+  <button onclick="readPDF('falsafar namaz.pdf')">Read</button>
+  <button onclick="downloadPDF('falsafar namaz.pdf')">Download</button>
+</div>
+    
+    <div class="book-card" data-category="Knowledge" data-title="Ma'anar ilimi" data-author="Sidi Ahmad Ahlul kisa'i">
+  <img src="ilimi.jpg" alt="Book Cover" loading="lazy" />
+  <h3>Ma'anar Ilimi</h3>
+  <p>Author: Sidi Ahmad Ahlul kisa'i</p>
+  <p>Category: Knowledge</p>
+  <button onclick="readPDF('MA’ANAR ILIMI.pdf')">Read</button>
+  <button onclick="downloadPDF('MA’ANAR ILIMI.pdf')">Download</button>
+</div>
+
+
+ <div class="book-card" data-category="Doctrine" data-title="halascin ziyartar kabarin ahlul baiti" data-author="sajjad sulaimani">
+  <img src="halascin.jpg" alt="Book Cover" loading="lazy" />
+  <h3>Halascin ziyartar kabarin Ahlul Baiti</h3>
+  <p>Author: Sajjad Sulaimani</p>
+  <p>Category: Doctrine</p>
+  <button onclick="readPDF('HALSCIN ZIYARAR ƘABURBURA DA MAKWANCIN A&apos;IMMA (A.S) BISA AL-QUR&apos;ANI DA SUNNAH.pdf')">Read</button>
+  <button onclick="downloadPDF('HALSCIN ZIYARAR ƘABURBURA DA MAKWANCIN A&apos;IMMA (A.S) BISA AL-QUR&apos;ANI DA SUNNAH.pdf')">Download</button>
+</div>
+
+<div class="book-card" data-category="History" data-title="Tarihin Harka" data-author="Sidi Ahmad Ahlul kisa'i">
+  <img src="tarihin harka.jpg" alt="Book Cover" loading="lazy" />
+  <h3>Tarihin Harka Islamiyya</h3>
+  <p>Author: Sidi Ahmad Ahlul kisa'i</p>
+  <p>Category: History</p>
+  <button onclick="readPDF('TARIHIN HARKA ISLAMIYYA WPS Office.pdf')">Read</button>
+  <button onclick="downloadPDF('
+  TARIHIN HARKA ISLAMIYYA WPS Office.pdf')">Download</button>
+</div>
+
+ <div class="book-card" data-category="Knowledge" data-title="matsaya akan tadbir" data-author="sajjad sulaimani">
+  <img src="matsayan tadbir.jpg" alt="Book Cover" loading="lazy" />
+  <h3>Matsaya Akan Tadbir </h3>
+  <p>Author: Sajjad Sulaimani</p>
+  <p>Category: Knowledge</p>
+  <button onclick="readPDF('MAGANGANU DA MATSAYA AKAN TAƊBIR ___SAJJAD SULAIMANY.pdf')">Read</button>
+  <button onclick="downloadPDF('MAGANGANU DA MATSAYA AKAN TAƊBIR ___SAJJAD SULAIMANY.pdf')">Download</button>
+</div>
+
+
+ <div class="book-card" data-category="History" data-title="Stop genocide" data-author="Sidi Ahmad Ahlul kisa'i">
+  <img src="genocide.jpg" alt="Book Cover" loading="lazy" />
+  <h3>Stop Genocide </h3>
+  <p>Author: Sidi Ahmad Ahlul Kisa'i</p>
+  <p>Category: History</p>
+  <button onclick="readPDF('GENOCIDE.pdf')">Read</button>
+  <button onclick="downloadPDF('GENOCIDE.pdf')">Download</button>
+</div>
+
+ <div class="book-card" data-category="Knowledge" data-title="Matsaya Akan Tadbir 2" data-author="sajjad sulaimani">
+  <img src="tadbir2.jpg" alt="Book Cover" loading="lazy" />
+  <h3>Matsaya Akan Tadbir</h3>
+  <p>Author: Sajjad Sulaimani</p>
+  <p>Category: Knowledge</p>
+  <button onclick="readPDF('الأقوال والموافق حول التطبير.pdf')">Read</button>
+  <button onclick="downloadPDF('الأقوال والموافق حول التطبير.pdf')">Download</button>
+</div>
+
+ <div class="book-card" data-category="History" data-title="Judaism" data-author="Sidi Ahmad Ahlul Kisa'i">
+  <img src="Judaism.jpg" alt="Book Cover" loading="lazy" />
+  <h3>Zoroastrianism . Judaism</h3>
+  <p>Author: Sidi Ahmad Ahlul Kisa'i</p>
+  <p>Category: History</p>
+  <button onclick="readPDF('judaism.pdf')">Read</button>
+  <button onclick="downloadPDF('judaism.pdf')">Download</button>
+</div>
+
+ <div class="book-card" data-category="Knowledge" data-title="Matsaya Akan Tadbir 3" data-author="sajjad sulaimani">
+  <img src="tadbir 1.jpg" alt="Book Cover" loading="lazy" />
+  <h3>Matsaya Akan Tadbir 3</h3>
+  <p>Author: Sajjad Sulaimani</p>
+  <p>Category: Knowledge</p>
+  <button onclick="readPDF('اقوال ومواضع پیرامون قمه زنی ... سجّاد سلیمانی.pdf')">Read</button>
+  <button onclick="downloadPDF('اقوال ومواضع پیرامون قمه زنی ... سجّاد سلیمانی.pdf')">Download</button>
+</div>
+
+ <div class="book-card" data-category="History" data-title="Martyr Imad Mugniyeh" data-author="Sidi Ahmad Ahlul Kisa'i">
+  <img src="imad.jpg" alt="Book Cover" loading="lazy" />
+  <h3>Martyr Imad Mugniyeh</h3>
+  <p>Author: Sidi Ahmad Ahlul Kisa'i</p>
+  <p>Category: History</p>
+  <button onclick="readPDF('Martyr Imad Mugniyeh.pdf')">Read</button>
+  <button onclick="downloadPDF('Martyr Imad Mugniyeh.pdf')">Download</button>
+</div>
+
+ <div class="book-card" data-category="Doctrine" data-title="Halascin Ziyartar Kaburburan Ahlul Baiti" data-author="sajjad sulaimani">
+  <img src="ziyartar.jpg" alt="Book Cover" loading="lazy" />
+  <h3>Halascin Ziyartar Kaburburan Ahlul Baiti</h3>
+  <p>Author: Sajjad Sulaimani</p>
+  <p>Category: Knowledge</p>
+  <button onclick="readPDF('جَوَازُ زِيَارَةِ الْقُبُورِ وَمَرَاقِدِ الأَئِمَّةِ______سجّاد سليماني.pdf')">Read</button>
+  <button onclick="downloadPDF('جَوَازُ زِيَارَةِ الْقُبُورِ وَمَرَاقِدِ الأَئِمَّةِ______سجّاد سليماني.pdf')">Download</button>
+</div>
+
+ <div class="book-card" data-category="History" data-title="Palestinian History" data-author="Sidi Ahmad Ahlul Kisa'i">
+  <img src="Palestinians.jpg" alt="Book Cover" loading="lazy" />
+  <h3>Real Fact | Palestinian History</h3>
+  <p>Author: Sidi Ahmad Ahlul Kisa'i</p>
+  <p>Category: History</p>
+  <button onclick="readPDF('real fact.pdf')">Read</button>
+  <button onclick="downloadPDF('real fact.pdf')">Download</button>
+</div>
+
+ <div class="book-card" data-category="Knowledge" data-title="Amfanin fushi" data-author="Jummai Ahmad Karofi">
+  <img src="fushi.png" alt="Book Cover" loading="lazy" />
+  <h3>Amfanin Fushi</h3>
+  <p>Author: Jummai Ahmad karofi</p>
+  <p>Category: Knowledge</p>
+  <button onclick="readPDF('AMFANIN FUSH........pdf')">Read</button>
+  <button onclick="downloadPDF('AMFANIN FUSH........pdf')">Download</button>
+</div>
+
+ <div class="book-card" data-category="Knowledge" data-title="Fikira Saleema" data-author="Zeenah Ibrahim">
+  <img src="fikira.jpg" alt="Book Cover" loading="lazy" />
+  <h3>Fikira Saleema</h3>
+  <p>Author: Zeenah Ibrahim</p>
+  <p>Category: Knowledge</p>
+  <button onclick="readPDF('FIKIRA SALEEMAH NEW EDITON5A.pdf')">Read</button>
+  <button onclick="downloadPDF('FIKIRA SALEEMAH NEW EDITON5A.pdf')">Download</button>
+</div>
+
+ <div class="book-card" data-category="Knowledge" data-title="Waliyin Allah" data-author="Nusaiba Muhammad">
+  <img src="waliyi.png" alt="Book Cover" loading="lazy" />
+  <h3>Ibrahim Waliyin Allah</h3>
+  <p>Author: Nusaiba Muhammad</p>
+  <p>Category: Knowledge</p>
+  <button onclick="readPDF('IBRAHEEM_WALIYIN_ALLAH_YANA_KAN_TAFARKIN_IBRAHEEM_ANNABIN_ALLAH.pdf')">Read</button>
+  <button onclick="downloadPDF('IBRAHEEM_WALIYIN_ALLAH_YANA_KAN_TAFARKIN_IBRAHEEM_ANNABIN_ALLAH.pdf')">Download</button>
+</div>
+
+ <div class="book-card" data-category="History" data-title="Hotunan Tafiyar Jagora Neman Lafiya" data-author="Tafsir Da Jawaban Jagora">
+  <img src="kundi.png" alt="Book Cover" loading="lazy" />
+  <h3>Hotunan Tafiyar Jagora Neman Lafiya</h3>
+  <p>Author: Tafsir Da Jawaban Jagora</p>
+  <p>Category: History</p>
+  <button onclick="readPDF('KUNDIN HOTUNAN TAFIYAR JAGORA  NEMAN LAFIYA (Autosaved).pdf')">Read</button>
+  <button onclick="downloadPDF('KUNDIN HOTUNAN TAFIYAR JAGORA  NEMAN LAFIYA (Autosaved).pdf')">Download</button>
+</div>
+
+ <div class="book-card" data-category="Knowledge" data-title="Ranar Ghadeer Khum" data-author="Tafsir Da Jawaban Jagora">
+  <img src="ghadeer.png" alt="Book Cover" loading="lazy" />
+  <h3>Ranar Ghadeer Khum</h3>
+  <p>Author: Tafsir Da Jawaban Jagora</p>
+  <p>Category: Knowledge</p>
+  <button onclick="readPDF('RANAR GHADEER KHUM.pdf')">Read</button>
+  <button onclick="downloadPDF('RANAR GHADEER KHUM.pdf')">Download</button>
+</div>
+
+
+
+ 
+
+
+
+
+  </div>  
+  
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Shahid Mahmud Library</h3>
+                <p>
+                    Shahid Mahmud Library — Spreading the light of knowledge and inspiring minds through books and
+                    learning.
+
+                </p>
+
+            </div>
+    <div class="footer-column links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="mission.html">Our Mission</a></li>
+                    <li><a href="video.html">Video - Clips</a></li>
+                    <li><a href="library.html">Book Library</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column contact-social">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+
+                <p>Email: info@shahidmahmudlibrary.org</p>
+                <p><i class="fa-brands fa-whatsapp"></i> Watsapp: (+234)-7030002000</p>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 Shahid Mahmud Library. All right reserved <br> 
+                Developed by <a href="https://sufeeweb.netlify.app" id="developer" target="_blank">SufeeWeb</a></p>
+            </div>
+        </div>
+    </footer>
+
+<script>
+    
+        
+        
+window.addEventListener("load", function() {
+    // Delay for smooth fade-out
+    setTimeout(() => {
+        document.getElementById("preloader").style.opacity = "0";
+        setTimeout(() => {
+            document.getElementById("preloader").style.display = "none";
+            document.getElementById("content").style.display = "block";
+        }, 500);
+    }, 500);
+});
+        
+    
+</script>
+
+
+    <script>
+    function readPDF(file) {
+      window.open(file, '_blank');
+    }
+
+    function downloadPDF(file) {
+      const link = document.createElement('a');
+      link.href = file;
+      link.download = file.split('/').pop();
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function() {
+      const filter = searchInput.value.toLowerCase();
+      const cards = document.querySelectorAll('.book-card');
+      cards.forEach(card => {
+        const title = card.dataset.title.toLowerCase();
+        const author = card.dataset.author.toLowerCase();
+        if(title.includes(filter) || author.includes(filter)){
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+
+    function filterCategory(category){
+      const cards = document.querySelectorAll('.book-card');
+      cards.forEach(card => {
+        if(category === '' || card.dataset.category === category){
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+  
+  <script>
+// index.html (around lines 224-226)
+
+        function setupSidebarToggle() {
+            // Gyara layuka biyu na farko
+            const toggleButton = document.getElementById('menuToggleBtn');
+            const sidebar = document.getElementById('mySidebar');
+
+            // Tabbatar cewa an samu duka biyun kafin a ci gaba
+            if (toggleButton && sidebar) {
+                toggleButton.addEventListener('click', function () {
+                    // ... sauran lambarka
+                    sidebar.classList.toggle('bude');
+
+                    if (sidebar.classList.contains('bude')) {
+                        toggleButton.innerHTML = 'X';
+                    } else {
+                        toggleButton.innerHTML = '≡';
+                    }
+                });
+            }
+        }
+        document.addEventListener('DOMContentLoaded', setupSidebarToggle);
+
+  </script>
+  </body>
+</html>

@@ -1,0 +1,873 @@
+/*  (Body Styling) */
+html{
+    scroll-behavior: smooth;
+}
+body {
+    font-family: 'poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+    overflow-x: hidden;
+    background-color: #f4f4f4;
+    padding-top: 80px;
+}
+
+#logo{
+    height: 70px;
+    border-color: #f4f4f4;
+}
+
+
+
+/* Boye Sidebar da farko */
+#mySidebar {
+    position: fixed;
+    left: -300px;
+    transition: left 0.7s ease;
+}
+
+/* Nuna Sidebar idan JavaScript ta shigar da class 'bude' */
+#mySidebar.bude {
+    left: 0;
+}
+
+
+.main-content {
+    background-color: white;
+    padding: 0px;
+    height: 1px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+}
+
+.main-content h2 {
+    font-size: 1.8em;
+    margin: 0;
+    color: whitesmoke;
+    margin-top: 0;
+    margin-bottom: 0px;
+    border-bottom: 2px solid #eee;
+}
+
+.heading-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+    padding: 15px 20px;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 20px;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: calc(100% - 40px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f4f4f4;
+    height: px;
+}
+
+
+.heading-bar h2 {
+    margin-left: 5px;
+    color:  #28a745;
+}
+
+/* Wannan yana boye dukkan hotunan da farko */
+.slide {
+    display: none;
+}
+
+/* Wannan yana sanya container ya zama relative don buttons su zauna a wajen da ya dace */
+.slider-container {
+    position: relative;
+    max-width: 100%;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+
+.text {
+    position: absolute;
+    top: 0;
+    /* Ya rufe dukkan hoto daga sama */
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 2.9em;
+    text-align: center;
+
+    /* Blue Background (Wanda kake da shi) */
+    background-color: rgba(0, 0, 102, 0.7);
+    color: white;
+
+    /* WANNAN SHINE MAGANIN: Amfani da Flexbox don Tsakiyawa */
+    display: flex;
+    flex-direction: column;
+    /* Don hutu da sabon layi tsakanin layi */
+    justify-content: center;
+    /* Zai daidaita shi a tsakiya a tsaye (Vertical Center) */
+    align-items: center;
+    /* Zai daidaita shi a tsakiya a kwance (Horizontal Center) */
+
+    text-align: center;
+    padding: 0px;
+}
+
+/* Sidebar da kansa: Wannan ne ke Boye shi da Farkon Shiga */
+.sidebar-cikin-main {
+    position: fixed;
+    height: 100%;
+    width: 0;
+    top: 0;
+    right: 0;
+    background-color: rgba(255, 255, 2550.9);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+    overflow-x: hidden;
+    transition: 0.7s;
+    z-index: 2000;
+
+
+}
+
+
+.nav-link.no-click {
+  pointer-events: none;   
+  cursor: default;
+}
+
+/* sa submenu ta ɓoye */
+.submenu {
+  display: none;
+  position: absolute;
+  background: #f2f2f2;
+  padding: 40px;
+  border-radius: 6px;
+  margin-top: 10px;
+  list-style: none;
+  z-index: 200;
+  width: 80%;
+}
+
+/* su fito idan an hover */
+li:hover > .submenu {
+  display: block;
+}
+
+/* styles na items */
+.submenu li {
+  padding: 6px 12px;
+}
+.submenu li a {
+  color: #333;
+  text-decoration: none;
+}
+.submenu li:hover {
+  background: #333;
+}
+
+
+    /* WRAPPER */
+    .hero {
+        position: relative;
+        height: 30vh;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    /* BACKGROUND LAYER */
+    .bg-slide {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transition: opacity 1.5s ease-in-out;
+    }
+
+    /* OVERLAY */
+    .overlay {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.55);
+    }
+
+    /* TEXT */
+    .hero-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        text-align: center;
+        max-width: 650px;
+
+        opacity: 0;
+        animation: textFade 1.5s ease forwards;
+        animation-delay: 0.7s;
+    }
+.hero-content h1{
+    font-size: 70px;
+}
+    @keyframes textFade {
+        to {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    .hero-content h1, .hero-content p {
+        text-shadow: 0 3px 10px rgba(0,0,0,0.7);
+    }
+
+
+
+.sidebar-cikin-main.bude {
+    width: 280px;
+    width: 280px;
+    padding: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #0f5132;
+}
+
+.menu-toggle {
+    z-index: 2001;
+    cursor: pointer;
+    right: 0;
+}
+
+
+.sidebar-content {
+    display: block;
+    padding: 10px 0;
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2em;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar-content .search-box {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    /* Tabbatar da cewa padding baya canza fadin */
+}
+
+/* Wannan zai gyara launin 'X' icon (idan yana da fari) */
+.menu-toggle {
+    color: #333;
+    /* Sanya launi mai duhu (idan yana fari kafin budewa) */
+    z-index: 2001;
+}
+
+
+.new-arrivals {
+    padding: 60px 20px;
+    text-align: center;
+    margin-top: -2em;
+
+}
+
+
+.new-arrivals h2 {
+    font-size: 2em;
+    margin-bottom: em;
+}
+
+ .book-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: auto; }
+    .book-card { background: white; border-radius: 8px; padding: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align: center; }
+    .book-card img { width: 100%; height: 250px; object-fit: cover; border-radius: 6px; }
+    .book-card h3 { margin: 10px 0 5px; font-size: 1.1rem; color: #333; }
+    .book-card p { margin: 2px 0; font-size: 0.9rem; color: #333; }
+    .book-card button { margin-top: 10px; padding: 8px 14px; border: none; background: darkgreen; color: white; border-radius: 5px; cursor: pointer; transition: 0.3s; margin-right: 5px; }
+    .book-card button:hover { background: #08313a; }
+
+
+
+
+.view-all-btn {
+    display: inline-block;
+    background-color: darkgreen;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.view-all-btn:hover {
+    background-color: #007bff;
+}
+
+
+
+
+
+.about-part {
+    text-align: center;
+    padding-top: 20px;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.about-heading {
+    color: darkgreen;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.about-heading span {
+    position: relative;
+    padding: 0 40px;
+}
+
+.about-heading span::before,
+.about-heading span::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30px;
+    height: 2px;
+    background-color: darkgreen;
+}
+
+.about-heading span::before {
+    left: 0;
+}
+
+.about-heading span::after {
+    right: 0;
+}
+
+.about-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: darkgreen;
+    position: relative;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.about-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 4px;
+    background-color: darkgreen;
+}
+
+.content-box {
+    text-align: left;
+    padding: 30px;
+    border: 1px solid #eee;
+    border-radius: 15px;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    line-height: 1.8;
+    color: black;
+    font-size: 16px;
+}
+
+.bold-text {
+    font-weight: 700;
+    color: #000;
+}
+
+.highlight-text {
+    text-decoration: underline;
+    font-style: italic;
+    color: #000;
+}
+
+.mission-part {
+    text-align: center;
+    padding-top: 80px;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.mission-heading {
+    color: darkgreen;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.mission-heading span {
+    position: relative;
+    padding: 0 40px;
+}
+
+.mission-heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 4px;
+    background-color: darkgreen;
+}
+
+.mission-heading span::before,
+.mission-heading span::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30px;
+    height: 2px;
+    background-color: darkgreen;
+}
+
+.mission-heading span::before {
+    left: 0;
+}
+
+.about-heading span::after {
+    right: 0;
+}
+
+.mission-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 4px;
+    background-color: darkgreen;
+}
+
+.mission-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: darkgreen;
+    position: relative;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+
+.mission-content {
+    text-align: left;
+    padding: 30px;
+    border: 1px solid #eee;
+    border-radius: 15px;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    line-height: 1.8;
+    color: black;
+    font-size: 16px;
+}
+
+.bold-text {
+    font-weight: 700;
+    color: #000;
+}
+
+.highlight-text {
+    text-decoration: underline;
+    font-style: italic;
+    color: #000;
+}
+
+.book {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+}
+
+.fas.fa-book-open {
+    color: darkgreen;
+    font-size: 44px;
+    cursor: pointer;
+    align-items: center;
+    display: block;
+    margin: 0 auto;
+}
+
+
+.vision-part {
+    text-align: center;
+    padding-top: 80px;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.vision-heading {
+    color: darkgreen;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.vision-heading span {
+    position: relative;
+    padding: 0 40px;
+}
+
+.vision-heading span::before,
+.vision-heading span::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30px;
+    height: 2px;
+    background-color: darkgreen;
+}
+
+.vision-heading span::before {
+    left: 0;
+}
+
+.vision-heading span::after {
+    right: 0;
+}
+
+
+.vision-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 4px;
+    background-color: darkgreen;
+}
+
+.vision-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: darkgreen;
+    position: relative;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+
+.vision-content {
+    text-align: left;
+    padding: 30px;
+    border: 1px solid #eee;
+    border-radius: 15px;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    line-height: 1.8;
+    color: #000;
+    font-size: 16px;
+}
+
+.bold-text {
+    font-weight: 700;
+    color: #000;
+}
+
+.highlight-text {
+    text-decoration: underline;
+    font-style: italic;
+    color: #000;
+}
+
+.eye {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+}
+
+.fas.fa-eye {
+    color: darkgreen;
+    font-size: 44px;
+    cursor: pointer;
+    align-items: center;
+    display: block;
+    margin: 0 auto;
+}
+ 
+
+    .main-footer {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding: 50px 0;
+    margin-top: 30px;
+    border-radius: 5px;
+}
+
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+}
+
+.footer-column {
+    width: 30%;
+    margin-bottom: 20px;
+    margin-left: 0em;
+}
+
+.footer-column h3{
+    color: #ffffff;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    margin-left: 2em;
+}
+footer-column p{margin-left: 2em;}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+ul{
+    list-style: none;
+}
+
+.footer-column ul li a {
+    color: #cccccc;
+    text-decoration: none;
+    line-height: 1.8;
+    transition: color 0.3s;
+    margin-left: 3em;
+}
+
+.footer-column p{
+    margin-left: 1em;
+}
+.footer-column links h3{
+    margin-left: 2em;
+}
+
+.footer-column h3{
+    margin-left: 1em;
+}
+
+/* Tsarin Social Media Icons */
+.social-icons a {
+    color: white;
+    font-size: 1.5em;
+    margin-right: 15px;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: white;
+}
+
+.fa-brands.fa-whatsapp {
+    color: white;
+    font-size: 20px;
+}
+
+.copyright {
+    margin-bottom: -50px;
+    border-top: 1px solid #333;
+    padding-top: 3px;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 5;
+}
+#developer{
+    color: #28a745;
+    text-decoration: none;
+    margin-top: 0em;
+}
+
+/* PRELOADER FULL SCREEN */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* CENTER CONTENT */
+.loader-content {
+    text-align: center;
+}
+
+/* LOGO */
+.loader-logo {
+    width: 40px;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    border-radius: 100em;
+}
+
+/* DOTS ANIMATION */
+.dots {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.dots span {
+    width: 14px;
+    height: 14px;
+    background: #2e9e42; /* green */
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+    animation: bounce 1.5s infinite ease-in-out;
+}
+
+.dots span:nth-child(2) {
+    animation-delay: .3s;
+}
+.dots span:nth-child(3) {
+    animation-delay: .6s;
+}
+
+/* ANIMATIONS */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); opacity: .5; }
+    50% { transform: translateY(-8px); opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+
+
+@media (min-width: 601px) and (max-width: 1024px) {
+    body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-size: 18px;
+        background-color: #f4f4f4;
+        max-width: none;
+    }
+
+
+    .book-cards-wrapper {
+        display: flex;
+        justify-content: space-around;
+        gap: 15px;
+        width: 100%;
+        flex-wrap: wrap;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    
+   
+
+
+}
+
+
+
+@media (max-width: 600px) {
+
+    .heading-bar {
+        width: 91%;
+    }
+
+    .button-group {
+        flex-direction: row;
+    }
+
+    .footer-column {
+        width: 100%;
+        text-align: center;
+    } 
+    .social-icons {
+        margin-bottom: 15px;
+    }
+
+
+    .about-part {
+    text-align: center;
+    padding-top: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+    }
+
+    .mission-part {
+    text-align: center;
+    padding-top: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+    }
+
+    .vision-part {
+    text-align: center;
+    padding-top: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+    }
+    
+    
+    
+    ul{
+        margin-left: -50px;
+        list-style: none;
+    }
+    
+    
+}
+
+
+@media (max-width: 768px){
+    /* BACKGROUND LAYER */
+    .bg-slide {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        }
+        
+         .hero {
+        position: relative;
+        height: 80vh;
+        width: 100%;
+        overflow: hidden;
+        }
+        
+         .hero-content {
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        text-align: center;
+        max-width: 650px;
+
+        opacity: 0;
+        animation: textFade 1.5s ease forwards;
+        animation-delay: 0.7s;
+    }
+}

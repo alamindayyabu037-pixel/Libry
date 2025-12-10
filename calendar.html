@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Shahid Mahmud Library Calendar</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
+<style>
+  :root{
+    --bg:#07131a; --card:#082027; --muted:#9fb6bf; --accent:#9b7b2f; --accent-2:#2fa08a; --white:#f5f7f8;
+    --special:#E91E63;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,Roboto,Arial;background:linear-gradient(180deg,#021017 0%,#07131a 100%);color:var(--white);min-height:100vh;padding:14px;display:flex;justify-content:center}
+  .app{width:100%;max-width:1100px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+  h1{font-size:20px;color:var(--accent);margin:0}
+  .controls{display:flex;gap:8px;align-items:center}
+  select,input,button{font-family:inherit}
+  .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:8px;color:var(--white);cursor:pointer}
+  .primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none}
+  .layout{display:grid;grid-template-columns:1fr 360px;gap:18px}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+  .monthHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .weekdayHeader{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:8px}
+  .weekday{font-size:12px;color:var(--muted);text-align:center}
+  .daysGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+  .day{background:transparent;padding:8px;border-radius:10px;min-height:110px;position:relative;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:6px;overflow:hidden}
+  .day.other{opacity:0.36}
+  .day .num{font-weight:700}
+  .day .hijri{font-size:11px;color:var(--muted)}
+  .evt{font-size:12px;padding:6px;border-radius:6px;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .verseMini{font-size:11px;line-height:1.1;color:rgba(255,255,255,0.9);margin-top:auto}
+  .today{box-shadow:0 6px 18px rgba(155,123,47,0.06);outline:2px solid rgba(155,123,47,0.12)}
+  .side{display:flex;flex-direction:column;gap:12px;
+  }
+  .eventsList{max-height:360px;overflow:auto;padding-right:6px}
+  .evItem{padding:10px;border-radius:8px;margin-bottom:8px;background:rgba(255,255,255,0.02)}
+  .muted{color:var(--muted)}
+  .small{font-size:12px}
+  .formRow{display:flex;gap:8px;margin-bottom:8px}
+  input[type='text'], input[type='number'], textarea, select{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--white)}
+  label{font-size:13px;color:var(--muted)}
+  .detailsImage{max-width:100%;border-radius:8px;margin-top:8px}
+  .toggle{display:flex;align-items:center;gap:8px}
+  #openAddBtn {
+  display: none;
+}
+#quickSub {
+  display: none;
+}
+#quickTitle {
+  display: none;
+}
+#vhSub{
+    display: none;
+}
+#developer{
+    text-decoration: none;
+    color: orange;
+}
+
+/* PRELOADER FULL SCREEN */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* CENTER CONTENT */
+.loader-content {
+    text-align: center;
+}
+
+/* LOGO */
+.loader-logo {
+    width: 40px;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    border-radius: 100em;
+}
+
+/* DOTS ANIMATION */
+.dots {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.dots span {
+    width: 14px;
+    height: 14px;
+    background: #2e9e42; /* green */
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+    animation: bounce 1.5s infinite ease-in-out;
+}
+
+.dots span:nth-child(2) {
+    animation-delay: .3s;
+}
+.dots span:nth-child(3) {
+    animation-delay: .6s;
+}
+
+/* ANIMATIONS */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); opacity: .5; }
+    50% { transform: translateY(-8px); opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+  /* responsive */
+  @media(max-width:920px){
+    .layout{grid-template-columns:1fr}
+    header{flex-direction:column;align-items:flex-start;gap:8px}
+    .daysGrid{grid-template-columns:repeat(2,1fr)}
+    .day{min-height:84px}
+    .eventsList{max-height:240px}
+  }
+  @media(min-width:921px) and (max-width:1200px){
+    .daysGrid{grid-template-columns:repeat(4,1fr)}
+  }
+  /* RTL adjustments */
+  [dir='rtl']{direction:rtl}
+  [dir='rtl'] .monthHead{flex-direction:row-reverse}
+  /* small text wrap for events */
+  .evt-wrap{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  footer{margin-top:12px;color:var(--muted);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="app" id="appRoot">
+  <header>
+    <div>
+      <h1 id="appTitle">Shahid Mahmud Library Calendar</h1>
+      
+    </div>
+
+ <!-- PRELOADER -->
+  <div id="preloader">
+      <div class="loader-content">
+          <img src="logo.jpg" alt="Loading Logo" class="loader-logo">
+          <div class="dots">
+              <span></span>
+              <span></span>
+              <span></span>
+          </div>
+      </div>
+  </div>
+
+  <div id="content" style="display:none;">
+
+    <div class="controls">
+      <label class="small muted">Language</label>
+      <select id="langSelect" aria-label="Language select">
+        <option value="en">English</option>
+        <option value="ha">Hausa</option>
+        <option value="ar">العربية</option>
+      </select>
+
+      <label class="toggle small muted"><input type="checkbox" id="autoVH" checked/> Auto Verse/Hadith</label>
+
+      <button id="exportBtn" class="btn">Export</button>
+      <button id="clearBtn" class="btn">Reset</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <main>
+      <div class="card">
+        <div class="monthHead">
+          <div>
+            <div id="monthLabel" style="font-size:16px"></div>
+            <div class="muted small" id="subLabel"></div>
+          </div>
+          <div class="nav">
+            <button id="prevBtn" class="btn">◀</button>
+            <button id="todayBtn" class="btn primary">Today</button>
+            <button id="nextBtn" class="btn">▶</button>
+          </div>
+        </div>
+
+        <div class="weekdayHeader" id="weekdayHeader"></div>
+        <div class="daysGrid" id="daysGrid"></div>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div><strong id="quickTitle">Quick Add Event</strong><div class="muted small" id="quickSub">Add by Hijri date (recurring every Hijri year)</div></div>
+          <button id="openAddBtn" class="btn">Add</button>
+        </div>
+
+        <div id="addForm" style="display:none">
+          <div class="formRow">
+            <div style="flex:1">
+              <label id="lblTitle">Title</label>
+              <input id="evTitle" type="text" placeholder="e.g. Wiladat: Imam Ali (a.s)"/>
+            </div>
+            <div style="width:110px">
+              <label id="lblHM">H.M</label>
+              <input id="evHijriM" type="number" min="1" max="12" />
+            </div>
+            <div style="width:110px">
+              <label id="lblHD">H.D</label>
+              <input id="evHijriD" type="number" min="1" max="30" />
+            </div>
+          </div>
+
+          <div class="formRow">
+            <div style="flex:1">
+              <label id="lblDesc">Description</label>
+              <input id="evDesc" type="text" />
+            </div>
+            <div style="width:120px">
+              <label id="lblColor">Color</label>
+              <input id="evColor" type="color" value="#9b7b2f" />
+            </div>
+          </div>
+
+          <div class="formRow">
+            <div style="flex:1">
+              <label>Image (optional)</label>
+              <input id="evImage" type="file" accept="image/*" />
+            </div>
+            <div style="width:120px;display:flex;align-items:center;gap:6px">
+              <button id="saveEventBtn" class="btn primary">Save</button>
+              <button id="cancelAddBtn" class="btn">Cancel</button>
+              
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <aside class="side">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <strong id="selectedTitle">Select a date</strong>
+            <div class="muted small" id="selectedHijri"></div>
+          </div>
+          <div class="muted small" id="selectedIso"></div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:10px 0"/>
+
+        <div class="muted small">Events</div>
+        <div class="eventsList" id="sideEvents"><div class="muted">Click a day to view events</div></div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <strong id="vhTitle">Aya & Hadith of the Day</strong>
+            <div class="muted small" id="vhSub">Arabic + translation by language</div>
+          </div>
+          <div class="muted small">Auto: <span id="autoStatus">On</span></div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:10px 0"/>
+
+        <div id="verseBox">
+          <div id="verseArabic" style="font-family: 'Scheherazade New', serif; font-size:18px; direction:rtl; text-align:right">...</div>
+          <div class="muted small" id="verseTrans"></div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:10px 0"/>
+
+        <div id="hadithBox">
+          <div id="hadithArabic" style="font-family: 'Scheherazade New', serif; font-size:15px; direction:rtl; text-align:right">...</div>
+          <div class="muted small" id="hadithTrans"></div>
+        </div>
+      </div>
+
+
+    </aside>
+  </div>
+
+  <footer>© 2025 Shahid Mahmud Library. All right reserved. <br> 
+  Developed by <a href="https://sufeeweb.netlify.app" id="developer" target="_blank">SufeeWeb</a>
+  </footer>
+</div>
+
+<script>
+    
+        
+        
+window.addEventListener("load", function() {
+    // Delay for smooth fade-out
+    setTimeout(() => {
+        document.getElementById("preloader").style.opacity = "0";
+        setTimeout(() => {
+            document.getElementById("preloader").style.display = "none";
+            document.getElementById("content").style.display = "block";
+        }, 500);
+    }, 500);
+});
+        
+    
+</script>
+
+<script>
+/* ============================
+   Utilities: Gregorian <-> JD & Islamic (tabular)
+   ============================ */
+function gregorianToJD(y,m,d){
+  var a = Math.floor((14 - m)/12);
+  var y2 = y + 4800 - a;
+  var m2 = m + 12*a - 3;
+  var jd = d + Math.floor((153*m2 + 2)/5) + 365*y2 + Math.floor(y2/4) - Math.floor(y2/100) + Math.floor(y2/400) - 32045;
+  return jd;
+}
+function islamicToJD(y,m,d){
+  return d + Math.ceil(29.5*(m-1)) + (y-1)*354 + Math.floor((3 + 11*y)/30) + 1948439 - 1;
+}
+function jdToIslamic(jd){
+  jd = Math.floor(jd);
+  var days = jd - 1948439;
+  var year = Math.floor((30*days + 10646)/10631);
+  var month = Math.min(12, Math.ceil((days - (islamicToJD(year,1,1)-1948439) + 1)/29.5) );
+  var day = jd - islamicToJD(year,month,1) + 1;
+  return {iy:year, im:month, id:day};
+}
+function gregorianToIslamicDate(date){
+  var jd = gregorianToJD(date.getFullYear(), date.getMonth()+1, date.getDate());
+  return jdToIslamic(jd);
+}
+
+/* ============================
+   Translations (basic)
+   ============================ */
+const translations = {
+  en: {
+    title: 'Shahid Mahmud Library Calendar',
+    quickTitle: 'Quick Add Event',
+    quickSub: 'Add by Hijri date (recurring)',
+    selectDate: 'Select a date',
+    events: 'Events',
+    autoOn: 'On',
+    autoOff: 'Off',
+    noEvents: 'No events'
+  },
+  ha: {
+    title: 'Shahid Mahmud Laburari',
+    quickTitle: 'Ƙara Sauri',
+    quickSub: 'Ƙara ta Hijri (mai maimaitawa)',
+    selectDate: 'Zaɓi kwanan wata',
+    events: 'Abubuwa',
+    autoOn: 'A kunne',
+    autoOff: 'A kashe',
+    noEvents: 'Babu abubuwa'
+  },
+  ar: {
+    title: 'تقويم مكتبة شهيد محمود',
+    quickTitle: 'إضافة سريعة',
+    quickSub: 'أضف بالتاريخ الهجري (متكرر)',
+    selectDate: 'اختر تاريخ',
+    events: 'الأحداث',
+    autoOn: 'تشغيل',
+    autoOff: 'إيقاف',
+    noEvents: 'لا أحداث'
+  }
+};
+
+/* ============================
+   Verse & Hadith dataset (Arabic + translations)
+   (add more entries as you like)
+   ============================ */
+const versesHadith = [
+  {verse:'قُلْ هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ', trans:{en:'Say: Are those who know equal to those who do not know? ( *Meaning* : Knowledge elevates a person and sets the foundation for a better life and understanding.) Surah Az-Zumar (39:9)', ha:'none.', ar:'قُلْ هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ'}, hadith:'قَالَ أَمِيرُ الْمُؤْمِنِينَ عَلِيُّ بْنُ أَبِي طَالِبٍ (ع): الْعِلْمُ أَصْلُ كُلِّ خَير.'},
+  {verse:'وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍ', trans:{en:'And indeed, you (O Muhammad) are upon a great moral character. ( *Meaning* : The Prophets excellent character is held up as the greatest example, showing that morals are central to faith and worship.).Surah Al-Qalam (68:4) ', ha:'none', ar:'وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍ'}, hadith:'قَالَ الْإِمَامُ الصَّادِقُ (ع): لَا عِبَادَةَ كَالْخُلُقِ الْحَسَنِ.'},
+  {verse:'يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ', trans:{en:'..you who have believed, seek help through patience and prayer. ( *Meaning* : Patience is the primary tool given to believers to overcome difficulties and find relief.). Surah Al-Baqarah (2:153)', ha:'none.', ar:'يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ'}, hadith:'قَالَ الْإِمَامُ الْحُسَيْنُ (ع): إِنَّ اَلصَّبْرَ لَتَضْمَنُ اَلنَّجَاةَ.'},
+  {verse:'وَقُلِ اعْمَلُوا فَسَيَرَى اللّٰهُ عَمَلَكُمْ وَرَسُولُهُ وَالْمُؤْمِنُونَ', trans:{en:'And say: Work for God will see your work, and His Messenger, and the believers. ( *Meaning* : Focus on the quality of your effort, as your actions are observed and judged by the highest standards.). Surah At-Tawbah (9:105).', ha:'none.', ar:'وَقُلِ اعْمَلُوا فَسَيَرَى اللّٰهُ عَمَلَكُمْ وَرَسُولُهُ وَالْمُؤْمِنُونَ'}, hadith:'قَالَ الْإِمَامُ عَلِيٌّ (ع): مَنْ لَمْ يُتْقِنْ عَمَلَهُ لَمْ يَصْلُحْ لَهُ سَبَبُهُ.'},
+  
+  {verse:'إِنَّمَا يَخْشَى اللّٰهَ مِنْ عِبَادِهِ الْعُلَمَاءُ', trans:{en:'Only those fear God, from among His servants, who have knowledge. (Meaning: Knowledge brings a profound respect and understanding of God, highlighting the superior status and value of those who possess and convey it.).Surah Fatir (35:28).', ha:'none.', ar:'.إِنَّمَا يَخْشَى اللّٰهَ مِنْ عِبَادِهِ الْعُلَمَاءُ'}, hadith:'.قَالَ الْإِمَامُ عَلِيٌّ (ع)| مَنْ عَلَّمَنِي حَرْفاً فَقَدْ صَيَّرَنِي عَبْداً لَهُ..'},
+  
+{verse:'.وَالْجَارِ ذِي الْقُرْبَىٰ وَالْجَارِ الْجُنُبِ', trans:{en:'.and (be kind) to the neighbor who is near of kin and the neighbor who is a stranger. (Meaning: The Quran explicitly commands kindness and good conduct towards all neighbors, making it a cornerstone of social life.).Surah An-Nisa (4:36).', ha:'none.', ar:'.وَالْجَارِ ذِي الْقُرْبَىٰ وَالْجَارِ الْجُنُبِ'}, hadith:'.قَالَ الْإِمَامُ الصَّادِقُ (ع): لَيْسَ مِنَّا مَنْ لَمْ يُحْسِنْ مُجَاوَرَةَ جَاره.'},
+
+{verse:'.فَبَشِّرْ عِبَادِ * الَّذِينَ يَسْتَمِعُونَ الْقَوْلَ فَيَتَّبِعُونَ أَحْسَنَهُ', trans:{en:'..So give good tidings to My servants * Who listen to the word and follow the best of it.  (Meaning: True wisdom and learning come from actively listening and choosing the most righteous path from what is heard.).surah Az-Zumar (39:17-18).', ha:'none.', ar:'.فَبَشِّرْ عِبَادِ * الَّذِينَ يَسْتَمِعُونَ الْقَوْلَ فَيَتَّبِعُونَ أَحْسَنَهُ'}, hadith:'.قَالَ الْإِمَامُ عَلِيٌّ (ع): لَا كَنْزَ أَنْفَعُ مِنَ الْعِلْمِ، وَلَا صَاحِبَ أَزْيَنُ مِنَ الْأَدَبِ.'},
+
+{verse:'.يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللّٰهَ وَلْتَنظُرْ نَفْسٌ مَّا قَدَّمَتْ لِغَدٍ', trans:{en:'O you who have believed, fear God. And let every soul look to what it has put forth for tomorrow (the Hereafter).  ‎(Meaning: This verse is a direct command for daily self-examination and accountability, which is the basis of moral self-control.). ‎surah Al-Hashr (59:18).', ha:'none.', ar:'‎يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللّٰهَ وَلْتَنظُرْ نَفْسٌ مَّا قَدَّمَتْ لِغَدٍ'}, hadith:'‎‎قَالَ الْإِمَامُ الْكَاظِمُ (ع): لَيْسَ مِنَّا مَنْ لَمْ يُحَاسِبْ نَفْسَهُ فِي كُلِّ يَوْم.'},
+
+{verse:'.‎رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً', trans:{en:'‎Our Lord, give us in this world good and in the Hereafter good.  ‎(Meaning: This prayer summarizes the balanced approach: seeking goodness in both worldly life and the afterlife.). ‎Surah Al-Baqarah (2:201).', ha:'none.', ar:'‎رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً'}, hadith:'‎‎قَالَ الْإِمَامُ عَلِيٌّ (ع): مَا أَحْسَنَ حَسَنَاتِ الدُّنْيَا مَعَ حَسَنَاتِ اَلْآخِرَةِ!.'},
+
+{verse:'.‎‎وَمَن يَتَوَكَّلْ عَلَى اللّٰهِ فَهُوَ حَسْبُهُ', trans:{en:'‎‎And whoever relies upon God .. then He is sufficient for him. ‎‎ (Meaning: Complete reliance on God is the ultimate source of security and solution to all matters.).Surah At-Talaq (65:3).', ha:'none.', ar:'‎وَمَن يَتَوَكَّلْ عَلَى اللّٰهِ فَهُوَ حَسْبُهُ'}, hadith:'‎‎قَالَ الْإِمَامُ الْجَوَادُ (ع): مَنْ اِتَّكَلَ عَلَى اَللَّهِ كَفَاهُ اَلنَّاسَ.'},
+
+{verse:'.‎‎‎إِنَّ اللّٰهَ لَا يُغَيِّرُ مَا بِقَوْمٍ حَتَّىٰ يُغَيِّرُوا مَا بِأَنفُسِهِمْ', trans:{en:'‎‎Indeed, God will not change the condition of a people until they change what is in themselves. ‎‎(Meaning: True societal change, fixing its affairs, begins with the moral and conscious effort of the individuals to obey God and change for the better.). Surah Ar-Ra\'d (13:11).', ha:'none.', ar:'‎إِنَّ اللّٰهَ لَا يُغَيِّرُ مَا بِقَوْمٍ حَتَّىٰ يُغَيِّرُوا مَا بِأَنفُسِهِمْ'}, hadith:'‎‎قَالَ الْإِمَامُ الصَّادِقُ (ع): اَلْمُسْتَغْفِرُ فِي السَّحَرِ كَالرَّامِي بِالسَّهْمِ فِي اَلْغَرَضِ.'}
+];
+
+/* ============================
+   Events array (complete set: Prophet → Imam Mahdi + major observances)
+    boolean highlights (e.g. Ashura, Ghadir)
+   ============================ */
+const defaultShiaEvents = [
+   {id:1, hijri:{m:3,d:17}, title:{en:'Wiladat: Prophet Muhammad (ﷺ)', ha:'Haihuwar Annabi Muhammad (ﷺ)', ar:'مولد النبي ﷺ'}, desc:{en:'Birth of the Prophet',ha:'Haihuwar Annabi',ar:'مولد النبي'}, color:'#0CBA3D',
+  img:"rasul.jpeg"},
+  {id:2, hijri:{m:2,d:28}, title:{en:'Shahadat: Prophet Muhammad (ﷺ)',ha:'Wafatin Annabi',ar:'وفاة النبي ﷺ'}, desc:{en:'Demise of the Prophet',ha:'rasuwar annabi',ar:'وفاة النبي'}, color:'#ff3332',
+  img:"shahadarasul.webp"},
+  
+  
+  
+{id:3, hijri:{m:7,d:13}, title:{en:'Wiladat: Imam Ali (as)', ha:'Haihuwar Imam Ali (as)', ar:'مولد علي'}, desc:{en:'Birth of the Imam',ha:'Haihuwar Imam Ali',ar:'مولد علي'}, color:'#0CBA3D',
+img:"wiladatu ali.jpg"},
+  {id:4, hijri:{m:9,d:21}, title:{en:'Shahadat: Imam Ali (as)',ha:'Wafatin Imam Ali',ar:'وفاة علي'}, desc:{en:'Demise of the Imam',ha:'Wafatin Imam Ali',ar:'وفاة علي'}, color:'#ff3332',
+  img:"5.jpeg"},
+  
+  
+
+  {id:10, hijri:{m:4,d:20}, title:{en:'Wiladat: Sayyidah Fatimah (a)',ha:'Haihuwar Sayyidah Zahra',ar:'مولد السيدة فاطمة'}, desc:{en:'Birth of Lady Fatimah',ha:'Haihuwar Sayyidah Zahra',ar:'مولد السيدة فاطمة'}, color:'#0CBA3D',
+  img:"shahid 13.jpg"},
+  {id:11, hijri:{m:4,d:3}, title:{en:'Shahadat: Sayyidah Fatimah (a)',ha:'Wafatin Sayyidah Zahra',ar:'وفاة السيدة فاطمة'}, desc:{en:'Demise of Lady Fatimah',ha:'Wafatin Sayyidah Zahra',ar:'وفاة السيدة فاطمة'}, color:'#ff3332',
+  img:"shahadatfatima.jpeg"},
+
+  {id:20, hijri:{m:9,d:15}, title:{en:'Wiladat: Imam Hasan (a)',ha:'Haihuwar Imam Hasan',ar:'مولد الإمام الحسن'}, desc:{en:'Birth of Imam Hasan',ha:'Haihuwar Imam Hasan',ar:'مَوْلِد الحسن'}, color:'#0CBA3D',
+  img:"wilada.jpeg" },
+  {id:21, hijri:{m:2,d:7}, title:{en:'Shahadat: Imam Hasan (a)',ha:'Wafatin Imam Hasan',ar:'استشهاد الإمام الحسن'}, desc:{en:'Demise of Imam Hasan',ha:'Wafatin Imam Hassan',ar:'استشهاد الإمام الحسن'}, color:'#ff3332',
+  img:"Ya Hussain.jpeg"},
+
+  {id:30, hijri:{m:8,d:3}, title:{en:'Wiladat: Imam Husayn (a)',ha:'Haihuwar Imam Husayn',ar:'مولد الإمام الحسين'}, desc:{en:'Birth of Imam Husayn',ha:'Haihuwar Imam Husayn',ar:'مولد الحسين'}, color:'#0CBA3D',
+  img:"3.jpeg" },
+  {id:31, hijri:{m:1,d:10}, title:{en:'Shahadat: Imam Husayn (a) — Ashura',ha:'Ashura — Shahadar Imam Husayn',ar:'عاشوراء استشهاد الإمام الحسين'}, desc:{en:'10 Muharram',ha:'10 Muharram',ar:'10 محرم'}, color:'#ff3332', 
+  img:"2.jpeg" ,special:true},
+
+  {id:40, hijri:{m:8,d:5}, title:{en:'Wiladat: Imam Zainul Abideen (a)',ha:'Haihuwar Imam Zainul Abideen',ar:'مولد الإمام زين العابدين'}, desc:{en:'Birth',ha:'Haihuwar',ar:'مولد'}, color:'#0CBA3D', 
+  img:"shahid 14.jpg"},
+  {id:41, hijri:{m:1,d:25}, title:{en:'Shahadat: Imam Zainul Abideen (a)',ha:'Wafatin Imam Zainul Abideen',ar:'وفاة الإمام زين العابدين'}, desc:{en:'Demise',ha:'Wafatin Imam Sajjad',ar:'وفاة'}, color:'#ff3332'},
+
+  {id:50, hijri:{m:7,d:1}, title:{en:'Wiladat: Imam Baqir (a)',ha:'Haihuwar Imam Baqir',ar:'مولد الإمام الباقر'}, desc:{en:'Birth',ha:'Haihuwar',ar:'مولد'}, color:'#0CBA3D',
+  img:"shahid 11.jpg"},
+  {id:51, hijri:{m:12,d:7}, title:{en:'Shahadat: Imam Baqir (a)',ha:'Wafatin Imam Baqir',ar:'وفاة الإمام الباقر'}, desc:{en:'Demise',ha:'Wafatin Imam Bakir',ar:'وفاة'}, color:'#ff3332'},
+
+  {id:60, hijri:{m:3,d:17}, title:{en:'Wiladat: Imam Sadiq (a)',ha:'Haihuwar Imam Sadiq',ar:'مولد الإمام الصادق'}, desc:{en:'Birth',ha:'Haihuwar',ar:'مولد'}, color:'#0CBA3D',
+  img:"3592529.jpg"},
+  {id:61, hijri:{m:10,d:25}, title:{en:'Shahadat: Imam Sadiq (a)',ha:'Wafatin Imam Sadiq',ar:'وفاة الإمام الصادق'}, desc:{en:'Demise',ha:'Wafatin Imam Sadiq',ar:'وفاة'}, color:'#ff3332'},
+
+  {id:70, hijri:{m:2,d:7}, title:{en:'Wiladat: Imam Kadhim (a)',ha:'Haihuwar Imam Kadhim',ar:'مولد الإمام الكاظم'}, desc:{en:'Birth',ha:'Haihuwar',ar:'مولد'}, color:'#0CBA3D',
+ img:"madina 2.jpeg" },
+  {id:71, hijri:{m:7,d:25}, title:{en:'Shahadat: Imam Kadhim (a)',ha:'Wafatin Imam Kadhim',ar:'وفاة الإمام الكاظم'}, desc:{en:'Demise',ha:'Wafatin Imam Kadhim',ar:'وفاة'}, color:'#ff3332'},
+
+  {id:80, hijri:{m:11,d:11}, title:{en:'Wiladat: Imam Ridha (a)',ha:'Haihuwar Imam Ridha',ar:'مولد الإمام الرضا'}, desc:{en:'Birth',ha:'Haihuwar',ar:'مولد'}, color:'#0CBA3D',
+  img:"rida.jpeg"},
+  {id:81, hijri:{m:2,d:17}, title:{en:'Shahadat: Imam Ridha (a)',ha:'Wafatin Imam Ridha',ar:'وفاة الإمام الرضا'}, desc:{en:'Demise',ha:'Wafatin Imam Ridha',ar:'وفاة'}, color:'#ff3332'},
+
+  {id:90, hijri:{m:7,d:10}, title:{en:'Wiladat: Imam Jawad (a)',ha:'Haihuwar Imam Jawad',ar:'مولد الإمام الجواد'}, desc:{en:'Birth',ha:'Haihuwar',ar:'مولد'}, color:'#0CBA3D',
+  img:"wilada.jpeg"},
+  {id:91, hijri:{m:11,d:29}, title:{en:'Shahadat: Imam Jawad (a)',ha:'Wafatin Imam Jawad',ar:'وفاة الإمام الجواد'}, desc:{en:'Demise',ha:'Wafatin Imam Jawad',ar:'وفاة'}, color:'#ff3332'},
+
+  {id:100, hijri:{m:7,d:2}, title:{en:'Wiladat: Imam Hadi (a)',ha:'Haihuwar Imam Hadi',ar:'مولد الإمام الهادي'}, desc:{en:'Birth',ha:'Haihuwar',ar:'مولد'}, color:'#0CBA3D',
+  img:"madina 3.jpeg"},
+  {id:101, hijri:{m:7,d:3}, title:{en:'Shahadat: Imam Hadi (a)',ha:'Rashin rayewa Imam Hadi',ar:'وفاة الإمام الهادي'}, desc:{en:'Demise',ha:'Rashin rayewa',ar:'وفاة'}, color:'#ff3332',img:"5.jpeg"},
+
+  {id:110, hijri:{m:4,d:10}, title:{en:'Wiladat: Imam Askari (a)',ha:'Haihuwar Imam Askari',ar:'مولد الإمام العسكري'}, desc:{en:'Birth',ha:'Haihuwar',ar:'مولد'}, color:'#0CBA3D',
+  img:"wilada.jpeg"},
+  {id:111, hijri:{m:3,d:8}, title:{en:'Shahadat: Imam Askari (a)',ha:'Rashin rayewa Imam Askari',ar:'وفاة الإمام العسكري'}, desc:{en:'Demise',ha:'Wafatin Imam Askari',ar:'وفاة'}, color:'#ff3332'},
+
+  {id:120, hijri:{m:8,d:15}, title:{en:'Wiladat: Imam Mahdi (ajf)',ha:'Haihuwar Imam Mahdi',ar:'مولد الإمام المهدي'}, desc:{en:'Birth of Imam Mahdi',ha:'Haihuwar Imam Mahdi',ar:'مولد المهدي'}, color:'#0CBA3D',
+  img:"images.jpeg"},
+  
+  
+ {id:130, hijri:{m:8,d:4}, title:{en:'Wiladat: Abul Fadl Abbas (as)',ha:'Haihuwar Abul Fadl ',ar:'مولد أبو الفضل العباس '}, desc:{en:'Birth of Abul Fadl Abbas',ha:'Haihuwar Abul Fadl',ar:'مولد العباس'}, color:'#0CBA3D',
+ img:"abbas.jpeg"},  
+  
+  
+  {id:140, hijri:{m:1,d:10}, title:{en:'Shahadat: Abul Fadl Abbas (a)',ha:'Wafatin Abul Fadl Abbas ',ar:'وفاة أبو الفضل العباس'}, desc:{en:'Demise',ha:'Wafatin Abul Fadl',ar:'وفاة'}, color:'#ff3332',
+  img:"5.jpeg"},
+
+
+ {id:120, hijri:{m:5,d:5}, title:{en:'Wiladat: Sayyidah Zainab (as)',ha:'Haihuwar Sayyidah Zainab (as)',ar:'مولد سيدة زينب'}, desc:{en:'Birth of Imam Mahdi',ha:'Haihuwar Sayyidah Zainab',ar:'مولد سيدة زينب'}, color:'#0CBA3D',
+ img:"Karbala.jpeg"},
+ 
+ 
+ {id:111, hijri:{m:7,d:15}, title:{en:'Shahadat: Sayyidah Zainab (a)',ha:'Wafatin Sayyidah Zainab ',ar:'وفاة سيدة زينب'}, desc:{en:'Demise',ha:'Wafatin Sayyidah Zainab',ar:'وفاة سيدة زينب'}, color:'#ff3332'},
+  // Major celebrations
+  {id:250, hijri:{m:12,d:18}, title:{en:'Eid al-Ghadir',ha:'Eid al-Ghadir',ar:'عيد الغدير'}, desc:{en:'Ghadir Khumm',ha:'Ghadir Khumm',ar:'غدير خم'}, color:'#0CBA3D',
+ img:"ghadeer.jpg", special:true},
+  {id:300, hijri:{m:2,d:20}, title:{en:"Arba'een",ha:"Arba'een",ar:'الاربعين'}, desc:{en:"40th day after Ashura",ha:'Kwanaki 40 bayan Ashura',ar:'الاربعين'}, color:'#ff3332',
+ img:"arbaeen2.jpg", special:true}
+];
+
+/* ============================
+   LocalStorage helpers
+   ============================ */
+function loadEvents(){
+  const saved = localStorage.getItem('shia_events_v1');
+  if(!saved) return JSON.parse(JSON.stringify(defaultShiaEvents));
+  try { return JSON.parse(saved); } catch(e){ return JSON.parse(JSON.stringify(defaultShiaEvents)); }
+}
+function saveEvents(arr){ localStorage.setItem('shia_events_v1', JSON.stringify(arr)); }
+
+/* ============================
+   Mock Frontend "ShiaToolkit" API
+   ============================ */
+window.ShiaToolkit = {
+  getAllEvents: ()=> events,
+  getEventsByHijri: (m,d)=> events.filter(e=> e.hijri && e.hijri.m===m && e.hijri.d===d),
+  addEvent: (ev)=> { ev.id = Date.now(); events.push(ev); saveEvents(events); renderCalendar(); return ev; },
+  updateEvent: (id,patch)=> { const idx = events.findIndex(x=>x.id===id); if(idx>=0){ events[idx] = {...events[idx],...patch}; saveEvents(events); renderCalendar(); return events[idx]; } return null; },
+  removeEvent: (id)=> { events = events.filter(x=>x.id!==id); saveEvents(events); renderCalendar(); return true; },
+  getVerseHadithByDate: (date)=> { const vi = seededIndex(versesHadith,date); return versesHadith[vi]; },
+  setLanguage: (l)=> { setLanguage(l); return l; }
+};
+
+/* ============================
+   App state + helpers
+   ============================ */
+let events = loadEvents();
+let lang = localStorage.getItem('shia_lang') || 'en';
+const langSelect = document.getElementById('langSelect');
+langSelect.value = lang;
+const autoVH = document.getElementById('autoVH');
+
+function saveLang(l){ localStorage.setItem('shia_lang', l); }
+function seededIndex(list, date){ const seed = date.getFullYear()*10000 + (date.getMonth()+1)*100 + date.getDate(); return seed % list.length; }
+
+/* ============================
+   UI rendering
+   ============================ */
+const weekdayNames = {
+  en: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+  ha: ['Lah','Lit','Tal','Lar','Alh','Jum','Asb'],
+  ar: ['أحد','اثن','ثلث','أربع','خميس','جمعة','سبت']
+};
+const weekdayHeader = document.getElementById('weekdayHeader');
+const daysGrid = document.getElementById('daysGrid');
+const monthLabel = document.getElementById('monthLabel');
+const selectedTitle = document.getElementById('selectedTitle');
+const selectedHijri = document.getElementById('selectedHijri');
+const selectedIso = document.getElementById('selectedIso');
+const sideEvents = 
+document.getElementById('sideEvents');
+const verseArabic = document.getElementById('verseArabic');
+const verseTrans = document.getElementById('verseTrans');
+const hadithArabic = document.getElementById('hadithArabic');
+const hadithTrans = document.getElementById('hadithTrans');
+const autoStatus = document.getElementById('autoStatus');
+
+function setLanguage(l){
+  lang = l; saveLang(l); langSelect.value = l;
+  // direction
+  if(l==='ar'){ document.documentElement.setAttribute('dir','rtl'); } else { document.documentElement.setAttribute('dir','ltr'); }
+  // update UI texts
+  document.getElementById('appTitle').textContent = translations[l].title;
+  document.getElementById('quickTitle').textContent = translations[l].quickTitle;
+  document.getElementById('quickSub').textContent = translations[l].quickSub;
+  selectedTitle.textContent = translations[l].selectDate;
+  autoStatus.textContent = autoVH.checked ? translations[l].autoOn : translations[l].autoOff;
+  renderWeekdays(); renderCalendar();
+}
+
+function renderWeekdays(){
+  weekdayHeader.innerHTML = '';
+  const days = weekdayNames[lang] || weekdayNames.en;
+  days.forEach(d => {
+    const el = document.createElement('div'); el.className='weekday'; el.textContent = d; weekdayHeader.appendChild(el);
+  });
+}
+
+/* render calendar */
+let today = new Date();
+let viewDate = new Date(today.getFullYear(), today.getMonth(),1);
+function renderCalendar(){
+  monthLabel.textContent = viewDate.toLocaleString(lang==='ar'?'ar':'en-US',{month:'long', year:'numeric'});
+  daysGrid.innerHTML = '';
+  const firstDay = new Date(viewDate.getFullYear(), viewDate.getMonth(),1).getDay();
+  const lastDate = new Date(viewDate.getFullYear(), viewDate.getMonth()+1,0).getDate();
+  for(let i=0;i<firstDay;i++){ const b=document.createElement('div'); b.className='day other blank'; daysGrid.appendChild(b); }
+  for(let d=1; d<=lastDate; d++){
+    const cellDate = new Date(viewDate.getFullYear(), viewDate.getMonth(), d);
+    const h = gregorianToIslamicDate(cellDate); // {iy,im,id}
+    const todays = events.filter(ev => ev.hijri && ev.hijri.m===h.im && ev.hijri.d===h.id);
+    const verseHadithToday = versesHadith[seededIndex(versesHadith, cellDate)];
+    const el = document.createElement('div'); el.className='day';
+    if(isSameDay(cellDate, new Date())) el.classList.add('today');
+    // top numbers
+    const num = document.createElement('div'); num.className='num'; num.textContent = d;
+    const hijriEl = document.createElement('div'); hijriEl.className='hijri'; hijriEl.textContent = `H: ${h.id}/${h.im}`;
+    el.appendChild(num); el.appendChild(hijriEl);
+    // events
+    todays.slice(0,3).forEach(ev=>{
+      const evDiv = document.createElement('div'); evDiv.className='evt'; evDiv.style.background = ev.special ? 'var(--special)' : ev.color || '#9b7b2f';
+      const titleText = (typeof ev.title === 'object') ? (ev.title[lang] || ev.title.en || Object.values(ev.title)[0]) : ev.title;
+      evDiv.innerHTML = `<span class="evt-wrap">${titleText}</span>`;
+      el.appendChild(evDiv);
+    });
+    // add mini verse/hadith (Arabic + small)
+    
+    
+    
+    // set data attributes
+    el.dataset.hijri = `${h.im}/${h.id}/${h.iy}`;
+    el.dataset.greg = `${d}/${viewDate.getMonth()+1}/${viewDate.getFullYear()}`;
+    // click handler
+    el.addEventListener('click', ()=> onDayClick(cellDate, el));
+    daysGrid.appendChild(el);
+  }
+}
+
+/* compare dates */
+function isSameDay(a,b){ return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
+
+/* on day click: show details on side panel */
+function onDayClick(dateObj, el){
+  const h = gregorianToIslamicDate(dateObj);
+  selectedTitle.textContent = dateObj.toDateString();
+  selectedHijri.textContent = `Hijri: ${h.id}/${h.im}/${h.iy}`;
+  selectedIso.textContent = `${dateObj.getFullYear()}-${String(dateObj.getMonth()+1).padStart(2,'0')}-${String(dateObj.getDate()).padStart(2,'0')}`;
+  // events
+  const evs = events.filter(ev => ev.hijri && ev.hijri.m===h.im && ev.hijri.d===h.id);
+  sideEvents.innerHTML = '';
+  if(evs.length===0){ sideEvents.innerHTML = `<div class="muted">${translations[lang].noEvents}</div>`; } else {
+    evs.forEach(ev=>{
+      const titleText = (typeof ev.title === 'object') ? (ev.title[lang] || ev.title.en || Object.values(ev.title)[0]) : ev.title;
+      const descText = (typeof ev.desc === 'object') ? (ev.desc[lang] || ev.desc.en || '') : ev.desc || '';
+      const wrap = document.createElement('div'); wrap.className='evItem';
+      wrap.innerHTML = `<strong>${titleText}</strong><div class="muted small">${descText}</div>`;
+      if(ev.img) wrap.innerHTML += `<img src="${ev.img}" class="detailsImage" alt="${titleText}"/>`;
+      sideEvents.appendChild(wrap);
+    });
+  }
+
+  // verse & hadith: if auto => use today's verse/hadith else use clicked date
+  const useAuto = autoVH.checked;
+  const dateForVH = useAuto ? new Date() : dateObj;
+  const vi = seededIndex(versesHadith, dateForVH);
+  const vh = versesHadith[vi];
+  verseArabic.textContent = vh.verse;
+  hadithArabic.textContent = vh.hadith;
+  // translations
+  if(lang === 'ar'){ verseTrans.textContent = vh.trans.ar || ''; hadithTrans.textContent = vh.hadith; } 
+  else if(lang === 'ha'){ verseTrans.textContent = vh.trans.ha || vh.trans.en; hadithTrans.textContent = vh.hadith; }
+  else { verseTrans.textContent = vh.trans.en || ''; hadithTrans.textContent = vh.hadith; }
+
+  document.getElementById('autoStatus').textContent = autoVH.checked ? translations[lang].autoOn : translations[lang].autoOff;
+}
+/* ================ Controls: prev/today/next ================ */
+document.getElementById('prevBtn').addEventListener('click', ()=>{
+  viewDate.setMonth(viewDate.getMonth()-1); renderCalendar();
+});
+document.getElementById('nextBtn').addEventListener('click', ()=>{
+  viewDate.setMonth(viewDate.getMonth()+1); renderCalendar();
+});
+document.getElementById('todayBtn').addEventListener('click', ()=>{
+  viewDate = new Date(today.getFullYear(), today.getMonth(),1); renderCalendar();
+});
+
+/* language select */
+langSelect.addEventListener('change', (e)=> setLanguage(e.target.value));
+
+/* auto toggle */
+autoVH.addEventListener('change', ()=>{
+  document.getElementById('autoStatus').textContent = autoVH.checked ? translations[lang].autoOn : translations[lang].autoOff;
+  // refresh verse/hadith display for selected date
+  // simulate click on currently selected date (if any)
+  const selectedEls = document.querySelectorAll('.day.today, .day');
+  // find clicked? we simply refresh displayed verse/hadith by using today or previous selection:
+  const selectedDateText = selectedTitle.textContent;
+  // try to find selected date cell
+  const cell = Array.from(document.querySelectorAll('.day')).find(c=> c.classList.contains('today')) || document.querySelector('.day');
+  if(cell) cell.click();
+});
+
+/* ============================
+   Add Event UI & image handling
+   ============================ */
+const openAddBtn = document.getElementById('openAddBtn'), addForm = document.getElementById('addForm');
+const saveEventBtn = document.getElementById('saveEventBtn'), cancelAddBtn = document.getElementById('cancelAddBtn');
+const evImageInput = document.getElementById('evImage');
+
+openAddBtn.addEventListener('click', ()=> addForm.style.display = addForm.style.display === 'none' ? 'block' : 'none');
+cancelAddBtn.addEventListener('click', ()=> { addForm.style.display='none'; });
+
+saveEventBtn.addEventListener('click', async ()=>{
+  const title = document.getElementById('evTitle').value.trim();
+  const hm = parseInt(document.getElementById('evHijriM').value);
+  const hd = parseInt(document.getElementById('evHijriD').value);
+  const desc = document.getElementById('evDesc').value.trim();
+  const color = document.getElementById('evColor').value;
+  if(!title || !hm || !hd){ alert('Please enter Title + Hijri Month + Hijri Day'); return; }
+  let imgData = null;
+  if(evImageInput.files && evImageInput.files[0]){
+    imgData = await fileToDataURL(evImageInput.files[0]);
+  }
+  // create event with translations for title/desc in current language
+  const ev = {
+    id: Date.now(),
+    hijri: {m: hm, d: hd},
+    title: { [lang]: title },
+    desc: { [lang]: desc },
+    color: color,
+    img: imgData
+  };
+  events.push(ev); saveEvents(events); renderCalendar(); addForm.style.display='none';
+  // clear
+  document.getElementById('evTitle').value=''; document.getElementById('evDesc').value=''; evImageInput.value='';
+});
+
+/* helper file -> dataURL */
+function fileToDataURL(file){
+  return new Promise((res,rej)=>{
+    const fr = new FileReader(); fr.onload = ()=> res(fr.result); fr.onerror = rej; fr.readAsDataURL(file);
+  });
+}
+
+/* export & reset */
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  const a = document.createElement('a'); const blob = new Blob([JSON.stringify(events,null,2)],{type:'application/json'}); a.href = URL.createObjectURL(blob); a.download = 'shia-events.json'; document.body.appendChild(a); a.click(); a.remove();
+});
+document.getElementById('clearBtn').addEventListener('click', ()=>{
+  if(confirm('Reset stored events to defaults? (localStorage will be cleared)')){
+    localStorage.removeItem('shia_events_v1'); events = loadEvents(); renderCalendar(); alert('Reset done');
+  }
+});
+
+/* ================ Init ================ */
+function init(){
+  // set language, direction, UI labels
+  setLanguage(lang);
+  // load existing events (already loaded)
+  renderCalendar();
+  // preselect today
+  const todayCell = Array.from(document.querySelectorAll('.day')).find(c=> c.classList.contains('today'));
+  if(todayCell) todayCell.click();
+}
+init();
+
+
+console.log('ShiaToolkit API ready — try ShiaToolkit.getAllEvents() in console');
+
+</script>
+</body>
+</html>
