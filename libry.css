@@ -118,7 +118,7 @@ body { font-family: Arial, sans-serif; background: #f5f7fa; margin: 0; padding: 
 }
 
     header { background: #08313a; padding: 20px; color: white; text-align: center; font-size: 1.5rem; font-weight: bold; }
-    .search-bar { text-align: center; margin: 25px; }
+    .search-bar { text-align: center; margin: 25px; margin-top: 50px;}
     .search-bar input { width: 60%; padding: 12px; border-radius: 6px; border: 1px solid #c7c7c7; font-size: 1rem; }
     .categories { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
     .categories button { padding: 10px 18px; border: none; background: darkgreen; color: white; border-radius: 6px; cursor: pointer; transition: 0.3s; }
@@ -215,6 +215,7 @@ ul{
 #logo{
     height: 60px;
     width: 62px;
+    background-color: #f2f2f2;
 }
 /* PRELOADER FULL SCREEN */
 #preloader {
