@@ -715,7 +715,29 @@ li:hover > .submenu {
   color: #00c896;
 }
  
+.whatsapp-float {
+  position: fixed;
+  width: 55px;
+  height: 55px;
+  bottom: 25px;
+  right: 20px;
+  background: #25d366;
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s ease;
+}
 
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  background: #1ebe57;
+}
     
 #developer{
     color: #28a745;
