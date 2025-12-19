@@ -604,92 +604,119 @@ li:hover > .submenu {
     display: block;
     margin: 0 auto;
 }
- 
 
-    .main-footer {
-    background-color: #1a1a1a;
-    color: #ffffff;
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    padding: 50px 0;
-    margin-top: 30px;
-    border-radius: 5px;
+.footer {
+  background: #0d0d0d;
+  color: #ccc;
+  padding: 60px 20px 20px;
+  font-family: Arial, sans-serif;
+  margin-top: 20px;
+  
 }
-
 
 .footer-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  margin: auto;
 }
 
-.footer-column {
-    width: 30%;
-    margin-bottom: 20px;
-    margin-left: 0em;
+.footer-box h2,
+.footer-box h3 {
+  color: #fff;
+  margin-bottom: 15px;
 }
 
-.footer-column h3{
-    color: #ffffff;
-    margin-bottom: 15px;
-    font-size: 1.2em;
-    margin-left: 2em;
-}
-footer-column p{margin-left: 2em;}
-
-.footer-column ul {
-    list-style: none;
-    padding: 0;
-}
-ul{
-    list-style: none;
+.footer-box p {
+  line-height: 1.7;
+  font-size: 14px;
 }
 
-.footer-column ul li a {
-    color: #cccccc;
-    text-decoration: none;
-    line-height: 1.8;
-    transition: color 0.3s;
-    margin-left: 3em;
+.footer-box ul {
+  list-style: none;
+  padding: 0;
 }
 
-.footer-column p{
-    margin-left: 1em;
-}
-.footer-column links h3{
-    margin-left: 2em;
+.footer-box ul li {
+  margin-bottom: 10px;
 }
 
-.footer-column h3{
-    margin-left: 1em;
+.footer-box ul li a {
+  text-decoration: none;
+  color: #ccc;
+  transition: 0.3s;
 }
 
-/* Tsarin Social Media Icons */
+.footer-box ul li a:hover {
+  color: #00c896;
+  padding-left: 5px;
+}
+
+/* NEWSLETTER */
+.newsletter-form {
+  display: flex;
+  margin-top: 10px;
+}
+
+.newsletter-form input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+
+.newsletter-form button {
+  padding: 10px 15px;
+  border: none;
+  background: darkgreen;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.newsletter-form button:hover {
+  opacity: 0.9;
+}
+
+/* SOCIAL ICONS */
+.social-icons {
+  margin-top: 15px;
+}
+
 .social-icons a {
-    color: white;
-    font-size: 1.5em;
-    margin-right: 15px;
-    transition: color 0.3s;
+  width: 36px;
+  height: 36px;
+  background: #222;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: 0.3s;
 }
 
 .social-icons a:hover {
-    color: white;
+  background: #00c896;
+  color: #000;
 }
 
-.fa-brands.fa-whatsapp {
-    color: white;
-    font-size: 20px;
+/* BOTTOM */
+.footer-bottom {
+  border-top: 1px solid #222;
+  margin-top: 40px;
+  padding-top: 20px;
+  text-align: center;
+  font-size: 14px;
 }
 
-.copyright {
-    margin-bottom: -50px;
-    border-top: 1px solid #333;
-    padding-top: 3px;
-    text-align: center;
-    width: 100%;
-    margin-bottom: 5;
+.footer-bottom span {
+  color: #00c896;
 }
+ 
+
+    
 #developer{
     color: #28a745;
     text-decoration: none;
@@ -893,4 +920,52 @@ ul{
     max-width: 320px;
     margin: 0 auto;
         }
+
+
+    .footer {
+    text-align: center;
+  }
+  
+  .footer-box ul li {
+  text-decoration: none;
+  color: #ccc;
+  transition: 0.3s;
+  text-align: center;
+}
+
+  .newsletter-form {
+    flex-direction: column;
+  }
+
+  .newsletter-form button {
+    margin-top: 10px;
+  }
+}
+
+   
+/* Tsarin Social Media Icons */
+.social-icons a {
+    color: white;
+    font-size: 1.5em;
+    margin-right: 15px;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: white;
+}
+
+.fa-brands.fa-whatsapp {
+    color: white;
+    font-size: 20px;
+}
+
+.copyright {
+    margin-bottom: -50px;
+    border-top: 1px solid #333;
+    padding-top: 3px;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 5;
+      }
 }
