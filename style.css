@@ -941,7 +941,10 @@ li:hover > .submenu {
     margin-top: 10px;
   }
 }
-
+l {
+        margin-left: -50px;
+        list-style: none;
+}
    
 /* Tsarin Social Media Icons */
 .social-icons a {
