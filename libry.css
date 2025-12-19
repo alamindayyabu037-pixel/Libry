@@ -247,6 +247,13 @@ body { font-family: Arial, sans-serif; background: #f5f7fa; margin: 0; padding: 
     text-align: center;
   }
 
+    .footer-box ul li a {
+  text-decoration: none;
+  color: #ccc;
+  transition: 0.3s;
+        text-align: center;
+    }
+    
   .newsletter-form {
     flex-direction: column;
   }
